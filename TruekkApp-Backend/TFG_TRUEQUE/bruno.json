@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "TFG_TRUEQUE",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

@@ -1,0 +1,22 @@
+meta {
+  name: CrearAdmin
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://127.0.0.1:8000/api/users
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "mari",
+    "email": "mari@test.com",
+    "password": "123456",
+    "role": "ADMIN",
+    "status": "APPROVED"
+  }
+  
+}
