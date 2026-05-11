@@ -134,3 +134,4 @@ Los servicios pueden pasar por un flujo de moderación antes de ser visibles pú
 ## Nota técnica (PHP)
 
 Se recomienda usar **PHP 8.2 o 8.3** para desarrollo de este proyecto. Con PHP 8.5 pueden aparecer warnings por dependencias o librerías que todavía no están totalmente adaptadas.
+
