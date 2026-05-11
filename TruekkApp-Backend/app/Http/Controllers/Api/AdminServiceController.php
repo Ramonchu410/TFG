@@ -40,6 +40,7 @@ class AdminServiceController extends Controller
         );
     }
 
+    // Moderación positiva: se aprueba el servicio y se notifica al propietario.
     public function approve(Request $request, Service $service)
     {
         $service->update([
@@ -62,6 +63,7 @@ class AdminServiceController extends Controller
         ]);
     }
 
+    // Moderación negativa con motivo obligatorio para dejar trazabilidad al usuario.
     public function reject(Request $request, Service $service)
     {
         $data = $request->validate([

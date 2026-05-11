@@ -16,6 +16,7 @@ class SavedService extends Model
         return $this->belongsTo(User::class);
     }
 
+    // Servicio marcado como favorito/guardado por el usuario.
     public function service()
     {
         return $this->belongsTo(Service::class);

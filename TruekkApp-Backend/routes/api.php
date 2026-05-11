@@ -26,6 +26,7 @@ Route::get('/services/{service}', [ServiceController::class, 'show']);
 
 Route::get('/users/{user}', [UserController::class, 'show']);
 
+// Todo lo que cuelga aquí requiere sesión válida con Sanctum.
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/saved-services', [SavedServiceController::class, 'index']);
@@ -66,6 +67,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/trade-requests/{tradeRequest}/messages', [TradeMessageController::class, 'index']);
     Route::post('/trade-requests/{tradeRequest}/messages', [TradeMessageController::class, 'store']);
 
+        // Rutas de moderación y gestión exclusivas para administradores.
     Route::middleware('admin')->prefix('admin')->group(function () {
         Route::get('/services', [AdminServiceController::class, 'index']);
         Route::get('/services/pending', [AdminServiceController::class, 'pending']);

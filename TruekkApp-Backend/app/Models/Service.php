@@ -21,6 +21,7 @@ class Service extends Model
     ];
 
 
+    // Propietario del servicio publicado en el marketplace.
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -31,6 +32,7 @@ class Service extends Model
         return $this->belongsTo(Category::class);
     }
 
+    // Usuarios que guardaron este servicio para revisarlo luego.
     public function savedByUsers()
     {
         return $this->hasMany(SavedService::class);

@@ -4,6 +4,7 @@ export const getPublicServices = (params = {}) =>
   apiClient.get("/api/services", { params });
 
 export const getServiceById = (id) => apiClient.get(`/api/services/${id}`);
+// Endpoints clave del flujo de creación/edición y moderación de servicios.
 export const createService = (payload) =>
   apiClient.post("/api/services", payload);
 export const updateService = (id, payload) =>

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
+    // Listado público con filtros del marketplace y ranking por valoraciones.
     public function index(Request $request)
     {
         $query = Service::query()
@@ -114,6 +115,7 @@ class ServiceController extends Controller
         ]);
     }
 
+    // Si cambian campos de contenido, el servicio vuelve a estado PENDING para moderación.
     public function update(Request $request, Service $service)
     {
         if ((int) $service->user_id !== (int) $request->user()->id) {

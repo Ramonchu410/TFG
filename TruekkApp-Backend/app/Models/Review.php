@@ -24,6 +24,7 @@ class Review extends Model
         return $this->belongsTo(User::class, 'to_user_id');
     }
 
+    // Valoración vinculada al trueque concreto que la originó.
     public function tradeRequest()
     {
         return $this->belongsTo(TradeRequest::class);

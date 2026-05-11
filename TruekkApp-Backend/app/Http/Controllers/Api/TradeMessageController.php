@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class TradeMessageController extends Controller
 {
+    // El chat solo se habilita cuando el trueque ya está aceptado por ambas partes.
     public function index(Request $request, TradeRequest $tradeRequest)
     {
         $this->authorizeTradeChat($request, $tradeRequest);

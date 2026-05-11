@@ -16,6 +16,7 @@ function Dashboard() {
   const [myServices, setMyServices] = useState([]);
   const [tradeRequests, setTradeRequests] = useState([]);
 
+  // El dashboard del usuario agrupa servicios propios y solicitudes de trueque pendientes.
   const loadDashboard = async () => {
     if (!user?.id || user?.role === 'ADMIN') return;
 
@@ -43,6 +44,7 @@ function Dashboard() {
 
   if (loading) return null;
 
+  // Los admins usan su panel específico, no este dashboard de usuario.
   if (user?.role === 'ADMIN') {
     return <Navigate to="/admin" replace />;
   }

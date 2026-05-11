@@ -46,6 +46,7 @@ function ServiceDetail() {
   const [isSaved, setIsSaved] = useState(false);
   const [savingService, setSavingService] = useState(false);
 
+  // Carga inicial del detalle público del servicio.
   useEffect(() => {
     const load = async () => {
       try {
@@ -85,6 +86,7 @@ function ServiceDetail() {
     );
   }, [myServices, service]);
 
+  // Antes de crear solicitud de trueque, cargamos servicios propios intercambiables.
   const handleOpenTradeBox = async () => {
     if (!isAuthenticated) return;
 
@@ -118,6 +120,7 @@ function ServiceDetail() {
     }
   };
 
+  // Envío de solicitud de trueque con servicio ofrecido + mensaje opcional.
   const handleTradeRequest = async () => {
     try {
       setMessage("");

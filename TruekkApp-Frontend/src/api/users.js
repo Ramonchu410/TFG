@@ -1,5 +1,6 @@
 import apiClient from './client';
 
+// Operaciones de administración de usuarios y perfil público.
 export const getAdminUsers = () => apiClient.get('/api/admin/users');
 
 export const verifyUser = (id) => apiClient.patch(`/api/admin/users/${id}/verify`);
