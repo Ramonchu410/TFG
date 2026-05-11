@@ -34,6 +34,7 @@ class TradeRequestController extends Controller
     }
 
     // POST /api/trade-requests
+    // Flujo de solicitud de trueque con validaciones de propiedad, estado y duplicados.
     public function store(Request $request)
     {
         $requesterId = $request->user()->id;

@@ -46,6 +46,7 @@ class User extends Authenticatable
             : null;
     }
 
+    // Relación base: un usuario puede publicar múltiples servicios.
     public function services()
     {
         return $this->hasMany(Service::class);
@@ -61,6 +62,7 @@ class User extends Authenticatable
         return $this->hasMany(SavedService::class);
     }
 
+    // Valoraciones recibidas tras cerrar trueques.
     public function reviewsReceived()
     {
         return $this->hasMany(Review::class, 'to_user_id');

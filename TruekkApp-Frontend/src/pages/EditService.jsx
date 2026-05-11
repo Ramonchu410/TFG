@@ -28,6 +28,7 @@ function EditService() {
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
 
+  // Cargamos en paralelo servicio + categorías para editar sin esperas extra.
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -79,6 +80,7 @@ function EditService() {
     ? categories
     : [];
 
+  // Guardado de cambios: al editar campos clave, backend puede reactivar moderación.
   const handleSubmit = async (e) => {
     e.preventDefault();
 

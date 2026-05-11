@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 class ReviewController extends Controller
 {
     // POST /api/reviews
+    // Solo permite valorar trueques completados y evita reseñas duplicadas.
     public function store(Request $request)
     {
         $userId = $request->user()->id;
@@ -22,7 +23,7 @@ class ReviewController extends Controller
 
         $trade = TradeRequest::with('targetService')->findOrFail($data['trade_request_id']);
 
-        // 🔒 Solo participantes
+        // Solo participantes
         $isParticipant =
             (int) $trade->requester_id === (int) $userId ||
             (int) $trade->targetService->user_id === (int) $userId;
@@ -31,14 +32,14 @@ class ReviewController extends Controller
             return response()->json(['message' => 'No autorizado.'], 403);
         }
 
-        // 🔒 Solo si COMPLETED
+        // Solo si COMPLETED
         if ($trade->status !== 'COMPLETED') {
             return response()->json([
                 'message' => 'Solo puedes valorar intercambios completados.'
             ], 422);
         }
 
-        // 🔒 No duplicados
+        // No duplicados
         $exists = Review::where('from_user_id', $userId)
             ->where('trade_request_id', $trade->id)
             ->exists();
@@ -49,7 +50,7 @@ class ReviewController extends Controller
             ], 422);
         }
 
-        // 🎯 A quién valoro
+        // A quién valoro
         $toUserId = (int) $trade->requester_id === (int) $userId
             ? $trade->targetService->user_id
             : $trade->requester_id;

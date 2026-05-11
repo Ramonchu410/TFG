@@ -10,6 +10,7 @@ function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Si el login va bien, respetamos la ruta protegida desde la que venía el usuario.
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
