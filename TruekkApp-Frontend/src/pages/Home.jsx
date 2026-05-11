@@ -162,7 +162,7 @@ function Home() {
         </div>
       </section>
 
-      {/* 🧠 RECOMENDACIONES */}
+      {/* RECOMENDACIONES */}
       {isAuthenticated && (
         <section className="py-5">
           <div className="container">
@@ -194,7 +194,7 @@ function Home() {
         </section>
       )}
 
-      {/* 🔍 MARKETPLACE */}
+      {/*MARKETPLACE */}
       <section id="marketplace" className="py-5 bg-soft">
         <div className="container">
           {/* HEADER */}
@@ -216,7 +216,7 @@ function Home() {
             )}
           </div>
 
-          {/* 🔎 FILTROS */}
+          {/* FILTROS */}
           <form
             className="card border-0 shadow-soft rounded-4 p-4 mb-4"
             onSubmit={handleSubmit}
