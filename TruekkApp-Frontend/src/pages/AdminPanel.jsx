@@ -22,6 +22,7 @@ function AdminPanel() {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
 
+  // Carga inicial del panel: servicios para moderación y listado de usuarios.
   const loadAdminData = async () => {
     try {
       setLoading(true);

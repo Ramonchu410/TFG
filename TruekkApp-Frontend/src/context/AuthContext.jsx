@@ -24,6 +24,7 @@ export function AuthProvider({ children }) {
     setUser(null);
   };
 
+  // Hidratamos sesión desde localStorage y validamos token contra API.
   useEffect(() => {
     const hydrate = async () => {
       const token = localStorage.getItem('auth_token');
@@ -56,6 +57,7 @@ export function AuthProvider({ children }) {
     hydrate();
   }, []);
 
+  // Tras autenticación persistimos token y usuario para proteger rutas privadas.
   const login = async (credentials) => {
     const response = await loginUser(credentials);
 

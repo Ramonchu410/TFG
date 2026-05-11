@@ -19,12 +19,14 @@ function CreateService() {
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
 
+  // Cargamos categorías al entrar para preparar el formulario de publicación.
   useEffect(() => {
     getCategories()
       .then((res) => setCategories(res.data?.data || res.data || []))
       .catch(() => setCategories([]));
   }, []);
 
+  // Alta de servicio: se normalizan tipos y se envía al endpoint de creación.
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');

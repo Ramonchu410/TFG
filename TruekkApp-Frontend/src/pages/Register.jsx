@@ -9,6 +9,7 @@ function Register() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Registramos al usuario y lo llevamos al login para iniciar sesión manualmente.
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');

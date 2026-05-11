@@ -14,6 +14,7 @@ class TradeRequest extends Model
         'message',
     ];
 
+    // Usuario que inicia la propuesta de trueque.
     public function requester()
     {
         return $this->belongsTo(User::class, 'requester_id');
@@ -29,6 +30,7 @@ class TradeRequest extends Model
         return $this->belongsTo(Service::class, 'offer_service_id');
     }
 
+    // Chat asociado a la solicitud para cerrar detalles del intercambio.
     public function messages()
     {
         return $this->hasMany(TradeMessage::class);

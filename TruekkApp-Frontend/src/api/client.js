@@ -8,6 +8,7 @@ const apiClient = axios.create({
   },
 });
 
+// Interceptor global: adjunta el Bearer token en cada llamada autenticada.
 apiClient.interceptors.request.use((config) => {
   const token = localStorage.getItem('auth_token');
 

@@ -70,6 +70,7 @@ class AuthController extends Controller
     }
 
     // GET /api/me
+    // Endpoint usado por el frontend para rehidratar sesión en recargas.
     public function me(Request $request)
     {
         $user = $request->user();

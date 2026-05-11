@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 class ReviewController extends Controller
 {
     // POST /api/reviews
+    // Solo permite valorar trueques completados y evita reseñas duplicadas.
     public function store(Request $request)
     {
         $userId = $request->user()->id;

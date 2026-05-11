@@ -30,6 +30,7 @@ function MyServices() {
       ['SERVICE_APPROVED', 'SERVICE_REJECTED', 'SERVICE_DELETED'].includes(notification.type)
   );
 
+  // En una sola carga traemos servicios y avisos de moderación para esta vista.
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -48,6 +49,7 @@ function MyServices() {
     loadData();
   }, []);
 
+  // Marcamos los avisos de moderación como leídos también en estado local.
   const handleMarkNotificationsAsRead = async () => {
     await markAllNotificationsAsRead();
 

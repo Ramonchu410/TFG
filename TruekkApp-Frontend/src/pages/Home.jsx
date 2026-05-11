@@ -38,6 +38,7 @@ function Home() {
     [appliedFilters],
   );
 
+  // Carga principal del marketplace con filtros limpios para no enviar campos vacíos.
   const loadServices = async (params = appliedFilters) => {
     try {
       setLoading(true);
@@ -53,6 +54,7 @@ function Home() {
     }
   };
 
+  // Recomendaciones personalizadas solo para usuarios autenticados.
   const loadRecommendations = async () => {
     try {
       setLoadingRecommendations(true);
@@ -66,6 +68,7 @@ function Home() {
     }
   };
 
+  // Primera carga: categorías + servicios públicos, y recomendaciones si hay sesión.
   useEffect(() => {
     getCategories()
       .then((res) => setCategories(res.data?.data || res.data || []))

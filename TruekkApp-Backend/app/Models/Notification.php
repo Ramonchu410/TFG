@@ -18,6 +18,7 @@ class Notification extends Model
         'read_at' => 'datetime',
     ];
 
+    // Notificación dirigida a un usuario concreto de la plataforma.
     public function user()
     {
         return $this->belongsTo(User::class);
