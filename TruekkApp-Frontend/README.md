@@ -27,3 +27,20 @@ VITE_API_URL=http://127.0.0.1:8000
 ```
 
 Si no se define, usa ese valor por defecto.
+
+## Tecnologías principales
+
+- React
+- Vite
+- React Router
+- Axios
+- Bootstrap
+
+## Funcionalidades
+
+- Registro e inicio de sesión
+- Gestión de servicios
+- Panel de usuario
+- Sistema de guardados
+- Solicitudes de intercambio
+- Panel de administración
