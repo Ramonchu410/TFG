@@ -17,6 +17,28 @@ TruekApp es una app de intercambio de servicios entre usuarios. Cada persona pub
 
 ## Puesta en marcha rápida
 
+Antes de instalar las dependencias, se recomienda comprobar las versiones de PHP, Node.js y Composer utilizadas durante el desarrollo del proyecto.
+
+El entorno principal de desarrollo fue:
+
+PHP 8.2.x
+Composer 2.9.x
+Node.js 22.x
+npm 11.x
+
+Durante el desarrollo se detectaron posibles incompatibilidades utilizando versiones más recientes de PHP y Node.js, especialmente en macOS. En caso de errores relacionados con Laravel, Vite o dependencias del frontend/backend, se recomienda utilizar las versiones indicadas anteriormente.
+
+Configuración recomendada en macOS
+PHP 8.2
+- brew install php@8.2
+- brew unlink php
+- brew link php@8.2 --force --overwrite
+Node.js 22
+- nvm install 22
+- nvm use 22
+Composer
+- brew reinstall composer
+
 ### 1) Backend (Laravel)
 
 ```bash
