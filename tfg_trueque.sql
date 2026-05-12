@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 11-05-2026 a las 18:57:22
+-- Tiempo de generación: 12-05-2026 a las 12:46:52
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -165,7 +165,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (11, '2026_04_30_210224_create_notifications_table', 3),
 (12, '2026_04_30_213016_create_trade_messages_table', 4),
 (13, '2026_05_01_102201_add_avatar_path_to_users_table', 5),
-(14, '2026_05_01_111016_create_saved_services_table', 6);
+(14, '2026_05_01_111016_create_saved_services_table', 6),
+(15, '2026_05_12_085142_update_users_status_enum_for_verification', 7);
 
 -- --------------------------------------------------------
 
@@ -200,7 +201,10 @@ INSERT INTO `notifications` (`id`, `user_id`, `type`, `title`, `message`, `read_
 (9, 9, 'SERVICE_APPROVED', 'Servicio aprobado', 'Tu servicio \"Me gustaría aprender a pintar, alguien que sepa ?\" ha sido aprobado y ya aparece en el marketplace.', NULL, '2026-05-01 08:36:09', '2026-05-01 08:36:09'),
 (10, 10, 'SERVICE_REJECTED', 'Servicio rechazado', 'Tu servicio \"Clases de tenis\" ha sido rechazado. Motivo: No cumple las políticas de publicación.', '2026-05-01 08:40:20', '2026-05-01 08:39:29', '2026-05-01 08:40:20'),
 (11, 10, 'SERVICE_DELETED', 'Servicio eliminado por moderación', 'Tu servicio \"probamos?\" ha sido eliminado por moderación y ya no está disponible en TruekApp.', NULL, '2026-05-03 19:08:08', '2026-05-03 19:08:08'),
-(12, 9, 'SERVICE_DELETED', 'Servicio eliminado por moderación', 'Tu servicio \"Delirio a las 12 de la noche\" ha sido eliminado por moderación y ya no está disponible en TruekApp.', NULL, '2026-05-03 19:08:15', '2026-05-03 19:08:15');
+(12, 9, 'SERVICE_DELETED', 'Servicio eliminado por moderación', 'Tu servicio \"Delirio a las 12 de la noche\" ha sido eliminado por moderación y ya no está disponible en TruekApp.', NULL, '2026-05-03 19:08:15', '2026-05-03 19:08:15'),
+(13, 10, 'INFO', 'Cuenta verificada', 'Tu cuenta ha sido verificada correctamente. Ya apareces como usuario verificado en TruekApp.', NULL, '2026-05-12 08:45:20', '2026-05-12 08:45:20'),
+(14, 9, 'INFO', 'Cuenta verificada', 'Tu cuenta ha sido verificada correctamente. Ya apareces como usuario verificado en TruekApp.', NULL, '2026-05-12 08:45:24', '2026-05-12 08:45:24'),
+(15, 5, 'INFO', 'Cuenta bloqueada', 'Tu cuenta ha sido bloqueada por administración. Puedes seguir viendo servicios, pero no puedes publicar ni solicitar trueques.', NULL, '2026-05-12 08:45:27', '2026-05-12 08:45:27');
 
 -- --------------------------------------------------------
 
@@ -244,7 +248,8 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (32, 'App\\Models\\User', 10, 'frontend-token', '201e1bed70b8d4b0d144abfd51b5c1439964a63ac64a9b96294dadaa76a9952e', '[\"*\"]', '2026-05-01 07:35:40', NULL, '2026-05-01 07:35:19', '2026-05-01 07:35:40'),
 (37, 'App\\Models\\User', 10, 'frontend-token', 'a7750e0a8ff16612cb0a620f573089f5fd9881e0dd8f9416d28d3c9d256d6ee5', '[\"*\"]', '2026-05-01 14:21:06', NULL, '2026-05-01 08:39:57', '2026-05-01 14:21:06'),
 (40, 'App\\Models\\User', 10, 'frontend-token', 'f8256ef7f8bdcf69cb8ef7ee33a49e33bf54e472b560685628225d15e5325f04', '[\"*\"]', '2026-05-10 19:46:39', NULL, '2026-05-10 18:40:36', '2026-05-10 19:46:39'),
-(41, 'App\\Models\\User', 10, 'frontend-token', 'b369e4acf4ca4eae184ee4f27f57589829eb8537011573937664251404b3ea39', '[\"*\"]', '2026-05-11 14:44:20', NULL, '2026-05-11 12:50:51', '2026-05-11 14:44:20');
+(41, 'App\\Models\\User', 10, 'frontend-token', 'b369e4acf4ca4eae184ee4f27f57589829eb8537011573937664251404b3ea39', '[\"*\"]', '2026-05-11 14:44:20', NULL, '2026-05-11 12:50:51', '2026-05-11 14:44:20'),
+(45, 'App\\Models\\User', 9, 'frontend-token', 'b5a74d3198e5153b8d1aa38369b72122a0cf678ec7168dcbab92618f8cef3360', '[\"*\"]', '2026-05-12 08:46:25', NULL, '2026-05-12 08:46:24', '2026-05-12 08:46:25');
 
 -- --------------------------------------------------------
 
@@ -384,7 +389,7 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `role` enum('ADMIN','USER') NOT NULL DEFAULT 'USER',
-  `status` enum('PENDING','APPROVED','REJECTED') NOT NULL DEFAULT 'PENDING',
+  `status` enum('PENDING','APPROVED','REJECTED','VERIFIED','BLOCKED') DEFAULT 'PENDING',
   `avatar_path` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -395,12 +400,12 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `role`, `status`, `avatar_path`) VALUES
 (1, 'Jesón', 'jeson@test.com', NULL, '$2y$12$96EerJSJKiqn6s.Il8BuI.41akx.4BSio1l8/mjezvBIegkZY7HCm', NULL, '2026-02-10 15:37:05', '2026-02-10 15:37:05', 'USER', 'PENDING', NULL),
 (2, 'Monchito', 'monchito@test.com', NULL, '$2y$12$fvDAM85Dgh7Vr7d04v9MDuhwboHTMRFN1O/7.HMVeajuYG1mjxy.C', NULL, '2026-02-10 15:37:20', '2026-02-10 15:37:20', 'USER', 'PENDING', NULL),
-(5, 'mari', 'mari@test.com', NULL, '$2y$12$AV6ScaAr1N5MZmPRSteWhuFs1G2xvVVQywpcQiN2Z4qHjnQKasAWe', NULL, '2026-02-10 15:52:58', '2026-02-10 15:52:58', 'USER', 'PENDING', NULL),
+(5, 'mari', 'mari@test.com', NULL, '$2y$12$AV6ScaAr1N5MZmPRSteWhuFs1G2xvVVQywpcQiN2Z4qHjnQKasAWe', NULL, '2026-02-10 15:52:58', '2026-05-12 08:45:27', 'USER', 'BLOCKED', NULL),
 (6, 'Mari Admin', 'mariadmin@test.com', NULL, '$2y$12$GJh2WmuhNxjopXLq5CBuKujefsQny.BoB.FbUcrzcdgsMOfezGdUu', NULL, '2026-02-10 16:02:35', '2026-02-10 16:02:35', 'ADMIN', 'PENDING', NULL),
 (7, 'Pepe', 'pepe@test.com', NULL, '$2y$12$CO9YrYkOxLYrl1WBpwsms.DPXfwJi0/sXtlRYPMtpS8SUGOf4BDve', NULL, '2026-02-10 16:14:52', '2026-02-10 16:14:52', 'USER', 'PENDING', NULL),
 (8, 'Ramon', 'asdasd@gmail.com', NULL, '$2y$12$2h.NGRWYTvKC12SsTVaOb.BC7zvteNnMpQuUnDx0W1PObZa8668nC', NULL, '2026-02-24 21:54:55', '2026-02-24 21:54:55', 'USER', 'PENDING', NULL),
-(9, 'mimate', 'mimate@gmail.com', NULL, '$2y$12$/TGDbxhOqxOnfA4hE4DNhOsJKnAqd6aOKPkXWbctjcWKlWJk9kDl6', NULL, '2026-04-24 07:21:33', '2026-05-01 08:34:03', 'USER', 'PENDING', 'avatars/rvJrHcsPe4PgkkSj5pBBVCKsWcGfINob0LvtbpEQ.jpg'),
-(10, 'Ramoncin', '12@g.com', NULL, '$2y$12$ONWkKRI77JjSu1fHQvx1EeMMdsGXEhRMHYZbd9sdBi50PiCDXkfXq', NULL, '2026-04-30 19:11:35', '2026-05-03 18:50:50', 'USER', 'PENDING', 'avatars/7uaCQ0k3KavQuAq5aGxADEnTcnQaIXGr92rgm7Zf.jpg');
+(9, 'mimate', 'mimate@gmail.com', NULL, '$2y$12$/TGDbxhOqxOnfA4hE4DNhOsJKnAqd6aOKPkXWbctjcWKlWJk9kDl6', NULL, '2026-04-24 07:21:33', '2026-05-12 08:45:24', 'USER', 'VERIFIED', 'avatars/rvJrHcsPe4PgkkSj5pBBVCKsWcGfINob0LvtbpEQ.jpg'),
+(10, 'Ramoncin', '12@g.com', NULL, '$2y$12$ONWkKRI77JjSu1fHQvx1EeMMdsGXEhRMHYZbd9sdBi50PiCDXkfXq', NULL, '2026-04-30 19:11:35', '2026-05-12 08:45:20', 'USER', 'VERIFIED', 'avatars/KUnlTBnNpDMU85vu6Smcg6ES7RYZK5rbwzN4x7jn.jpg');
 
 --
 -- Índices para tablas volcadas
@@ -558,19 +563,19 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT de la tabla `reviews`
