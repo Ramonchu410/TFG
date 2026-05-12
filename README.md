@@ -64,6 +64,20 @@ Frontend por defecto en: `http://127.0.0.1:5173`
 
 > Si hace falta, define `VITE_API_URL` apuntando al backend.
 
+## Usuarios de prueba
+Nota: recomendación del autor probar el sistema de mensajería con los dos usuarios.
+### Usuario 1
+- Email: 12@g.com
+- Contraseña: 123456
+
+### Usuario 2
+- Email: mimate@gmail.com
+- Contraseña: 123456
+
+### Administrador
+- Email: mariadmin@test.com
+- Contraseña: 123456
+
 ## Estructura principal
 
 ```text
