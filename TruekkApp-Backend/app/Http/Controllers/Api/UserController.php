@@ -59,6 +59,7 @@ class UserController extends Controller
                 'role' => $user->role,
                 'avatar_url' => $user->avatar_url,
                 'created_at' => $user->created_at,
+                'status' => $user->status,
             ],
             'stats' => [
                 'services_count' => $services->count(),

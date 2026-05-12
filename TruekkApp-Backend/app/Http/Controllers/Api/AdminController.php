@@ -44,29 +44,41 @@ class AdminController extends Controller
         ], 201);
     }
 
-    // PATCH /api/admin/users/{user}/verify
     public function verify(User $user)
-    {
-        $user->update([
-            'status' => 'VERIFIED',
-        ]);
+{
+    $user->update([
+        'status' => 'VERIFIED',
+    ]);
 
-        return response()->json([
-            'message' => 'Usuario verificado correctamente',
-            'user' => $user,
-        ]);
-    }
+    \App\Models\Notification::create([
+        'user_id' => $user->id,
+        'type' => 'INFO',
+        'title' => 'Cuenta verificada',
+        'message' => 'Tu cuenta ha sido verificada correctamente. Ya apareces como usuario verificado en TruekApp.',
+    ]);
 
-    // PATCH /api/admin/users/{user}/block
-    public function block(User $user)
-    {
-        $user->update([
-            'status' => 'BLOCKED',
-        ]);
+    return response()->json([
+        'message' => 'Usuario verificado correctamente',
+        'user' => $user->fresh(),
+    ]);
+}
 
-        return response()->json([
-            'message' => 'Usuario bloqueado correctamente',
-            'user' => $user,
-        ]);
-    }
+public function block(User $user)
+{
+    $user->update([
+        'status' => 'BLOCKED',
+    ]);
+
+    \App\Models\Notification::create([
+        'user_id' => $user->id,
+        'type' => 'INFO',
+        'title' => 'Cuenta bloqueada',
+        'message' => 'Tu cuenta ha sido bloqueada por administración. Puedes seguir viendo servicios, pero no puedes publicar ni solicitar trueques.',
+    ]);
+
+    return response()->json([
+        'message' => 'Usuario bloqueado correctamente',
+        'user' => $user->fresh(),
+    ]);
+}
 }

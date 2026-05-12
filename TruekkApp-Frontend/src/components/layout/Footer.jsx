@@ -5,7 +5,7 @@ function Footer() {
     <footer className="footer-shell mt-5 py-5">
       <div className="container">
         <div className="row g-4 align-items-start">
-          {/* 🟣 Marca */}
+          {/* Marca */}
           <div className="col-md-4">
             <h5 className="fw-bold brand-gradient">TruekApp</h5>
             <p className="text-muted mb-3">
@@ -18,7 +18,7 @@ function Footer() {
             </Link>
           </div>
 
-          {/* 🔗 Navegación */}
+          {/* Navegación */}
           <div className="col-md-4">
             <h6 className="fw-semibold mb-3">Navegación</h6>
 
@@ -51,7 +51,7 @@ function Footer() {
             </ul>
           </div>
 
-          {/* 📬 Contacto */}
+          {/* Contacto */}
           <div className="col-md-4">
             <h6 className="fw-semibold mb-3">Contacto</h6>
 
@@ -91,10 +91,10 @@ function Footer() {
           </div>
         </div>
 
-        {/* 🧠 Divider */}
+        {/* Divider */}
         <hr className="my-4" />
 
-        {/* 🧾 Legal */}
+        {/* Legal */}
         <div className="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 small text-muted">
           <span>
             © {new Date().getFullYear()} TruekApp · TFG Plataforma de Trueque de

@@ -58,6 +58,7 @@ Backend por defecto en: `http://127.0.0.1:8000`
 cd TruekkApp-Frontend
 npm install
 npm run dev
+php artisan storage:link (para cargar la foto de perfil)
 ```
 
 Frontend por defecto en: `http://127.0.0.1:5173`

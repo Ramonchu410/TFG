@@ -199,6 +199,8 @@ function ServiceDetail() {
 
   const typeData = getTypeData(service.type);
   const moderationData = getModerationData(service.moderation_status);
+  const publisher = service.user;
+  const isPublisherVerified = publisher?.status === "VERIFIED";
 
   return (
     <section className="py-5 service-detail-section">
@@ -250,7 +252,7 @@ function ServiceDetail() {
                   <InfoBox
                     icon="bi-person-circle"
                     label="Usuario"
-                    value={service.user?.name || `User ${service.user_id}`}
+                    value={publisher?.name || `User ${service.user_id}`}
                   />
 
                   <InfoBox
@@ -289,20 +291,47 @@ function ServiceDetail() {
               <h5 className="fw-bold mb-3">Publicado por</h5>
 
               <Link
-                to={`/users/${service.user?.id}`}
+                to={`/users/${publisher?.id}`}
                 className="d-flex align-items-center gap-3 mb-4 text-decoration-none user-link-block"
               >
-                <div
-                  className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold shadow-sm user-avatar"
-                  style={{ width: 52, height: 52 }}
-                >
-                  {service.user?.name?.charAt(0)?.toUpperCase() || "?"}
-                </div>
+                {publisher?.avatar_url ? (
+                  <img
+                    src={publisher.avatar_url}
+                    alt={publisher?.name || "Usuario"}
+                    className="rounded-circle border shadow-sm user-avatar"
+                    style={{
+                      width: 52,
+                      height: 52,
+                      objectFit: "cover",
+                    }}
+                  />
+                ) : (
+                  <div
+                    className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold shadow-sm user-avatar"
+                    style={{
+                      width: 52,
+                      height: 52,
+                      fontSize: "1.25rem",
+                    }}
+                  >
+                    {publisher?.name?.charAt(0)?.toUpperCase() || "?"}
+                  </div>
+                )}
 
                 <div>
-                  <strong className="text-dark">
-                    {service.user?.name || "Usuario"}
-                  </strong>
+                  <div className="d-flex align-items-center gap-2 flex-wrap">
+                    <strong className="text-dark">
+                      {publisher?.name || "Usuario"}
+                    </strong>
+
+                    {isPublisherVerified && (
+                      <i
+                        className="bi bi-patch-check-fill text-primary"
+                        title="Usuario verificado"
+                      />
+                    )}
+                  </div>
+
                   <p className="text-muted small mb-0">Miembro de TruekApp</p>
                 </div>
               </Link>

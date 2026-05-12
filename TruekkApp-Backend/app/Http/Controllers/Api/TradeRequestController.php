@@ -16,11 +16,11 @@ class TradeRequestController extends Controller
 
         $query = TradeRequest::query()
             ->with([
-                'requester:id,name,email',
+                'requester:id,name,email,status',
                 'targetService:id,title,description,location,user_id,type',
-                'targetService.user:id,name,email',
+                'targetService.user:id,name,email,status',
                 'offerService:id,title,description,location,user_id,type',
-                'offerService.user:id,name,email',
+                'offerService.user:id,name,email,status',
             ])
             ->where(function ($q) use ($userId) {
                 $q->where('requester_id', $userId)
@@ -37,6 +37,12 @@ class TradeRequestController extends Controller
     // Flujo de solicitud de trueque con validaciones de propiedad, estado y duplicados.
     public function store(Request $request)
     {
+        if ($request->user()->status === 'BLOCKED') {
+            return response()->json([
+                'message' => 'Tu cuenta está bloqueada. No puedes solicitar trueques.',
+            ], 403);
+        }
+
         $requesterId = $request->user()->id;
 
         $data = $request->validate([
@@ -101,11 +107,11 @@ class TradeRequestController extends Controller
         return response()->json([
             'message' => 'Solicitud de trueque enviada correctamente.',
             'trade_request' => $trade->load([
-                'requester:id,name,email',
+                'requester:id,name,email,status',
                 'targetService:id,title,description,location,user_id,type',
-                'targetService.user:id,name,email',
+                'targetService.user:id,name,email,status',
                 'offerService:id,title,description,location,user_id,type',
-                'offerService.user:id,name,email',
+                'offerService.user:id,name,email,status',
             ]),
         ], 201);
     }
@@ -126,11 +132,11 @@ class TradeRequestController extends Controller
 
         return response()->json(
             $tradeRequest->load([
-                'requester:id,name,email',
+                'requester:id,name,email,status',
                 'targetService:id,title,description,location,user_id,type',
-                'targetService.user:id,name,email',
+                'targetService.user:id,name,email,status',
                 'offerService:id,title,description,location,user_id,type',
-                'offerService.user:id,name,email',
+                'offerService.user:id,name,email,status',
             ])
         );
     }

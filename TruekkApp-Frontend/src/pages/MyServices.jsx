@@ -15,7 +15,45 @@ const notificationColorMap = {
   SERVICE_APPROVED: 'success',
   SERVICE_REJECTED: 'warning',
   SERVICE_DELETED: 'danger',
+  INFO: 'info',
 };
+
+const notificationIconMap = {
+  SERVICE_APPROVED: 'bi-check-circle-fill',
+  SERVICE_REJECTED: 'bi-exclamation-triangle-fill',
+  SERVICE_DELETED: 'bi-trash-fill',
+  INFO: 'bi-info-circle-fill',
+};
+
+function getNotificationColor(notification) {
+  const title = notification.title?.toLowerCase() || '';
+  const message = notification.message?.toLowerCase() || '';
+
+  if (title.includes('bloqueada') || message.includes('bloqueada')) {
+    return 'danger';
+  }
+
+  if (title.includes('verificada') || message.includes('verificada')) {
+    return 'success';
+  }
+
+  return notificationColorMap[notification.type] || 'info';
+}
+
+function getNotificationIcon(notification) {
+  const title = notification.title?.toLowerCase() || '';
+  const message = notification.message?.toLowerCase() || '';
+
+  if (title.includes('bloqueada') || message.includes('bloqueada')) {
+    return 'bi-slash-circle-fill';
+  }
+
+  if (title.includes('verificada') || message.includes('verificada')) {
+    return 'bi-patch-check-fill';
+  }
+
+  return notificationIconMap[notification.type] || 'bi-info-circle-fill';
+}
 
 function MyServices() {
   const navigate = useNavigate();
@@ -24,13 +62,9 @@ function MyServices() {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const unreadServiceNotifications = notifications.filter(
-    (notification) =>
-      !notification.read_at &&
-      ['SERVICE_APPROVED', 'SERVICE_REJECTED', 'SERVICE_DELETED'].includes(notification.type)
-  );
+  const unreadNotifications = notifications.filter((notification) => !notification.read_at);
 
-  // En una sola carga traemos servicios y avisos de moderación para esta vista.
+  // En una sola carga traemos servicios y avisos del usuario para esta vista.
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -49,7 +83,7 @@ function MyServices() {
     loadData();
   }, []);
 
-  // Marcamos los avisos de moderación como leídos también en estado local.
+  // Marcamos los avisos como leídos también en estado local.
   const handleMarkNotificationsAsRead = async () => {
     await markAllNotificationsAsRead();
 
@@ -59,6 +93,8 @@ function MyServices() {
         read_at: notification.read_at || new Date().toISOString(),
       }))
     );
+    //Actualizamos las notificaciones en navbar.
+    window.dispatchEvent(new Event('notificationsUpdated'));
   };
 
   if (loading) return <LoadingSpinner text="Cargando tus servicios..." />;
@@ -77,13 +113,13 @@ function MyServices() {
           </button>
         </div>
 
-        {unreadServiceNotifications.length > 0 && (
+        {unreadNotifications.length > 0 && (
           <div className="card border-0 shadow-soft rounded-4 p-4 mb-4">
             <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
               <div>
-                <h5 className="fw-bold mb-1">Avisos de moderación</h5>
+                <h5 className="fw-bold mb-1">Avisos de tu cuenta</h5>
                 <p className="text-muted small mb-0">
-                  Tienes novedades sobre tus servicios publicados.
+                  Tienes novedades sobre tus servicios, moderación o estado de usuario.
                 </p>
               </div>
 
@@ -96,15 +132,23 @@ function MyServices() {
             </div>
 
             <div className="d-grid gap-2">
-              {unreadServiceNotifications.map((notification) => (
-                <div
-                  className={`alert alert-${notificationColorMap[notification.type] || 'info'} mb-0`}
-                  key={notification.id}
-                >
-                  <strong>{notification.title}</strong>
-                  <div className="small mt-1">{notification.message}</div>
-                </div>
-              ))}
+              {unreadNotifications.map((notification) => {
+                const color = getNotificationColor(notification);
+                const icon = getNotificationIcon(notification);
+
+                return (
+                  <div className={`alert alert-${color} mb-0`} key={notification.id}>
+                    <div className="d-flex gap-2 align-items-start">
+                      <i className={`bi ${icon} mt-1`} />
+
+                      <div>
+                        <strong>{notification.title}</strong>
+                        <div className="small mt-1">{notification.message}</div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}

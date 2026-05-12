@@ -19,6 +19,7 @@ function UserProfile() {
 
   const loadProfile = async () => {
     setLoading(true);
+
     getPublicUserProfile(id)
       .then((res) => setProfile(res.data))
       .finally(() => setLoading(false));
@@ -70,6 +71,7 @@ function UserProfile() {
   }
 
   const { user, stats, services, reviews } = profile;
+  const isVerified = user?.status === 'VERIFIED';
 
   return (
     <section className="py-5">
@@ -120,8 +122,26 @@ function UserProfile() {
                 <p className="text-uppercase text-primary small fw-bold mb-1">
                   Perfil público
                 </p>
-                <h1 className="fw-bold mb-1">{user.name}</h1>
-                <p className="text-muted mb-1">Miembro de TruekApp</p>
+
+                <div className="d-flex align-items-center gap-2 flex-wrap">
+                  <h1 className="fw-bold mb-1">{user.name}</h1>
+
+                  {isVerified && (
+                    <i
+                      className="bi bi-patch-check-fill text-primary fs-3 mb-1"
+                      title="Usuario verificado"
+                    />
+                  )}
+                </div>
+
+                <p className="text-muted mb-1">
+                  Miembro de TruekApp
+                  {isVerified && (
+                    <span className="badge text-bg-primary ms-2">
+                      Verificado
+                    </span>
+                  )}
+                </p>
 
                 {isOwnProfile && (
                   <small className="text-muted">

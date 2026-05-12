@@ -13,7 +13,7 @@ class ServiceController extends Controller
     public function index(Request $request)
     {
         $query = Service::query()
-            ->with(['user:id,name,avatar_path', 'category:id,name'])
+            ->with(['user:id,name,avatar_path,status', 'category:id,name'])
             ->where('is_active', true)
             ->where('moderation_status', 'APPROVED')
             ->when($request->search, function ($q) use ($request) {
@@ -60,6 +60,12 @@ class ServiceController extends Controller
 
     public function store(Request $request)
     {
+        if ($request->user()->status === 'BLOCKED') {
+            return response()->json([
+                'message' => 'Tu cuenta está bloqueada. No puedes publicar servicios.',
+            ], 403);
+        }
+
         $data = $request->validate([
             'category_id' => ['nullable', 'exists:categories,id'],
             'type' => ['required', 'in:OFFER,REQUEST'],
@@ -80,7 +86,7 @@ class ServiceController extends Controller
 
         return response()->json([
             'message' => 'Servicio creado correctamente. Pendiente de validación.',
-            'service' => $service->load(['user:id,name,avatar_path', 'category:id,name']),
+            'service' => $service->load(['user:id,name,avatar_path,status', 'category:id,name']),
         ], 201);
     }
 
@@ -88,7 +94,7 @@ class ServiceController extends Controller
     {
         return response()->json(
             Service::query()
-                ->with(['user:id,name,avatar_path', 'category:id,name'])
+                ->with(['user:id,name,avatar_path,status', 'category:id,name'])
                 ->where('user_id', $request->user()->id)
                 ->orderByDesc('id')
                 ->get()
@@ -111,13 +117,19 @@ class ServiceController extends Controller
         $service->reviews_count = $reviews->count();
 
         return response()->json([
-            'service' => $service->load(['user:id,name,email,avatar_path', 'category:id,name']),
+            'service' => $service->load(['user:id,name,email,avatar_path,status', 'category:id,name']),
         ]);
     }
 
     // Si cambian campos de contenido, el servicio vuelve a estado PENDING para moderación.
     public function update(Request $request, Service $service)
     {
+        if ($request->user()->status === 'BLOCKED') {
+            return response()->json([
+                'message' => 'Tu cuenta está bloqueada. No puedes editar servicios.',
+            ], 403);
+        }
+
         if ((int) $service->user_id !== (int) $request->user()->id) {
             return response()->json(['message' => 'No puedes editar un servicio que no es tuyo.'], 403);
         }
@@ -153,7 +165,7 @@ class ServiceController extends Controller
             'message' => $contentChanged
                 ? 'Servicio actualizado correctamente. Queda pendiente de revisión.'
                 : 'Visibilidad del servicio actualizada correctamente.',
-            'service' => $service->fresh()->load(['user:id,name,avatar_path', 'category:id,name']),
+            'service' => $service->fresh()->load(['user:id,name,avatar_path,status', 'category:id,name']),
         ]);
     }
 
@@ -168,7 +180,7 @@ class ServiceController extends Controller
         return response()->json(null, 204);
     }
 
-    /* Matching de servicios: Devuelve servicios similares o complementarios al servicio dado, 
+    /* Matching de servicios: Devuelve servicios similares o complementarios al servicio dado,
     basándose en tipo, categoría, ubicación y palabras clave. */
     public function matches(Request $request, Service $service)
     {
@@ -181,7 +193,7 @@ class ServiceController extends Controller
         $limit = (int) $request->query('limit', 6);
 
         $candidates = Service::query()
-            ->with(['user:id,name,avatar_path', 'category:id,name'])
+            ->with(['user:id,name,avatar_path,status', 'category:id,name'])
             ->where('id', '!=', $service->id)
             ->where('user_id', '!=', $service->user_id)
             ->where('is_active', true)
@@ -247,12 +259,12 @@ class ServiceController extends Controller
             ->values();
 
         return response()->json([
-            'base_service' => $service->load(['user:id,name,avatar_path', 'category:id,name']),
+            'base_service' => $service->load(['user:id,name,avatar_path,status', 'category:id,name']),
             'matches' => $matches,
         ]);
     }
 
-    /* Recomendaciones personalizadas: Devuelve servicios recomendados para 
+    /* Recomendaciones personalizadas: Devuelve servicios recomendados para
     el usuario basándose en sus servicios activos, categorías, ubicaciones y tipos. */
     public function recommendations(Request $request)
     {
@@ -283,7 +295,7 @@ class ServiceController extends Controller
             ->values();
 
         $candidates = Service::query()
-            ->with(['user:id,name,avatar_path', 'category:id,name'])
+            ->with(['user:id,name,avatar_path,status', 'category:id,name'])
             ->where('user_id', '!=', $user->id)
             ->where('is_active', true)
             ->where('moderation_status', 'APPROVED')

@@ -14,6 +14,12 @@ const statusMap = {
   REJECTED: 'danger',
 };
 
+const userStatusMap = {
+  VERIFIED: 'success',
+  BLOCKED: 'danger',
+  PENDING: 'secondary',
+};
+
 function AdminPanel() {
   const [services, setServices] = useState([]);
   const [users, setUsers] = useState([]);
@@ -61,8 +67,13 @@ function AdminPanel() {
   };
 
   const handleApprove = async (id) => {
-    await approveService(id);
-    await loadAdminData();
+    try {
+      await approveService(id);
+      await loadAdminData();
+    } catch (error) {
+      console.error(error);
+      setMessage('No se pudo aprobar el servicio.');
+    }
   };
 
   const handleReject = async (id) => {
@@ -70,8 +81,13 @@ function AdminPanel() {
 
     if (!reason) return;
 
-    await rejectService(id, reason);
-    await loadAdminData();
+    try {
+      await rejectService(id, reason);
+      await loadAdminData();
+    } catch (error) {
+      console.error(error);
+      setMessage('No se pudo rechazar el servicio.');
+    }
   };
 
   const handleDelete = async (id) => {
@@ -79,22 +95,55 @@ function AdminPanel() {
 
     if (!confirmDelete) return;
 
-    await deleteAdminService(id);
-    await loadAdminData();
+    try {
+      await deleteAdminService(id);
+      await loadAdminData();
+    } catch (error) {
+      console.error(error);
+      setMessage('No se pudo eliminar el servicio.');
+    }
   };
 
   const handleVerifyUser = async (id) => {
-    await verifyUser(id);
-    await loadAdminData();
+    try {
+      const response = await verifyUser(id);
+      const updatedUser = response.data?.user;
+
+      setUsers((prev) =>
+        prev.map((user) =>
+          user.id === id ? { ...user, ...updatedUser } : user
+        )
+      );
+
+      setMessage(response.data?.message || 'Usuario verificado correctamente.');
+    } catch (error) {
+      console.error(error);
+      setMessage('No se pudo verificar el usuario.');
+    }
   };
 
   const handleBlockUser = async (id) => {
-    const confirmBlock = window.confirm('¿Seguro que quieres bloquear este usuario?');
+    const confirmBlock = window.confirm(
+      '¿Seguro que quieres bloquear este usuario? No podrá publicar servicios ni solicitar trueques.'
+    );
 
     if (!confirmBlock) return;
 
-    await blockUser(id);
-    await loadAdminData();
+    try {
+      const response = await blockUser(id);
+      const updatedUser = response.data?.user;
+
+      setUsers((prev) =>
+        prev.map((user) =>
+          user.id === id ? { ...user, ...updatedUser } : user
+        )
+      );
+
+      setMessage(response.data?.message || 'Usuario bloqueado correctamente.');
+    } catch (error) {
+      console.error(error);
+      setMessage('No se pudo bloquear el usuario.');
+    }
   };
 
   return (
@@ -305,7 +354,24 @@ function UsersAdminTable({ users, onVerify, onBlock }) {
               <td>#{user.id}</td>
 
               <td>
-                <div className="fw-semibold">{user.name}</div>
+                <div className="fw-semibold d-flex align-items-center gap-2">
+                  <span>{user.name}</span>
+
+                  {user.status === 'VERIFIED' && (
+                    <i
+                      className="bi bi-patch-check-fill text-primary"
+                      title="Usuario verificado"
+                    />
+                  )}
+
+                  {user.status === 'BLOCKED' && (
+                    <i
+                      className="bi bi-slash-circle-fill text-danger"
+                      title="Usuario bloqueado"
+                    />
+                  )}
+                </div>
+
                 <small className="text-muted">{user.email}</small>
               </td>
 
@@ -316,18 +382,26 @@ function UsersAdminTable({ users, onVerify, onBlock }) {
               </td>
 
               <td>
-                <span className="badge text-bg-secondary">
+                <span className={`badge text-bg-${userStatusMap[user.status] || 'secondary'}`}>
                   {user.status || 'SIN ESTADO'}
                 </span>
               </td>
 
               <td className="text-end">
                 <div className="btn-group btn-group-sm">
-                  <button className="btn btn-outline-success" onClick={() => onVerify(user.id)}>
+                  <button
+                    className="btn btn-outline-success"
+                    onClick={() => onVerify(user.id)}
+                    disabled={user.status === 'VERIFIED'}
+                  >
                     Verificar
                   </button>
 
-                  <button className="btn btn-outline-danger" onClick={() => onBlock(user.id)}>
+                  <button
+                    className="btn btn-outline-danger"
+                    onClick={() => onBlock(user.id)}
+                    disabled={user.status === 'BLOCKED'}
+                  >
                     Bloquear
                   </button>
                 </div>

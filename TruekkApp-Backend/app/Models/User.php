@@ -40,11 +40,13 @@ class User extends Authenticatable
     }
 
     public function getAvatarUrlAttribute()
-    {
-        return $this->avatar_path
-            ? asset('storage/' . $this->avatar_path)
-            : null;
+{
+    if (!$this->avatar_path) {
+        return null;
     }
+
+    return asset('storage/' . $this->avatar_path);
+}
 
     // Relación base: un usuario puede publicar múltiples servicios.
     public function services()
