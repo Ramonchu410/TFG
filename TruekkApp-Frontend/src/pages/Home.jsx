@@ -132,7 +132,7 @@ function Home() {
               {topServices.slice(0, 3).map((service, index) => (
                 <div className="col-md-4" key={service.id}>
                   <div className="position-relative">
-                    {/* MEDALLA 🔥 */}
+                    {/* MEDALLA  */}
                     <span
                       className={`badge position-absolute top-0 start-0 m-2 ${
                         index === 0
@@ -149,7 +149,7 @@ function Home() {
 
                     {/* RATING */}
                     <div className="mt-2 text-warning fw-bold small">
-                      ⭐ {service.avg_rating?.toFixed(1) || "0"}
+                       {service.avg_rating?.toFixed(1) || "0"}
                       <span className="text-muted ms-1">
                         ({service.reviews_count || 0})
                       </span>

@@ -1,46 +1,72 @@
+
+/* 
+   VARIABLES GLOBALES DEL SISTEMA
+*/
+
+/* Variables reutilizables de colores y gradientes principales */
 :root {
   --bg-main: #f4f7ff;
   --text-main: #1d2238;
   --gradient-brand: linear-gradient(130deg, #5f2cff, #12b5e5 60%, #32d583);
 }
 
+/* 
+   ESTILOS GENERALES
+ */
+
+/* Fondo principal y color de texto global */
 body {
   background: radial-gradient(circle at top right, #f5f3ff, transparent 40%), var(--bg-main);
   color: var(--text-main);
 }
 
+/* Texto con gradiente corporativo */
 .brand-gradient {
   background: var(--gradient-brand);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
+/* Iconos principales de marca */
 .brand-icon {
   font-size: 1.4rem;
   color: #5f2cff;
 }
 
+/* 
+   NAVBAR
+*/
+
+/* Navbar con efecto cristal */
 .glass-nav {
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.9);
   border-bottom: 1px solid rgba(95, 44, 255, 0.1);
 }
 
+/* Estilo general de enlaces navegación */
 .nav-link {
   font-weight: 500;
 }
 
+/* Badge del usuario autenticado */
 .user-badge {
   font-weight: 600;
   border: 1px solid #d9dcff;
 }
 
+/* 
+   HERO SECTION
+*/
+
+/* Sección principal de bienvenida */
 .hero-section {
   background: linear-gradient(135deg, #150f3a 0%, #243a84 50%, #1469d8 100%);
   position: relative;
   overflow: hidden;
 }
 
+/* Efecto decorativo luminoso del hero */
 .hero-section::after {
   content: '';
   position: absolute;
@@ -51,6 +77,7 @@ body {
   background: radial-gradient(circle, rgba(255, 255, 255, 0.25), transparent 60%);
 }
 
+/* Tarjeta principal del hero */
 .hero-card {
   background: rgba(255, 255, 255, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.4);
@@ -58,81 +85,125 @@ body {
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
 }
 
+/*
+   TARJETAS Y SOMBRAS GENERALES
+*/
+
+/* Sombras reutilizables */
 .feature-box,
 .stats-card,
 .shadow-soft {
   box-shadow: 0 14px 35px rgba(20, 24, 40, 0.08);
 }
 
+/* Caja de características */
 .feature-box {
   background: linear-gradient(145deg, #ffffff, #f8fbff);
   border: 1px solid #eef1ff;
 }
 
+/* Fondo suave reutilizable */
 .bg-soft {
   background: linear-gradient(180deg, #f7faff 0%, #eef4ff 100%);
 }
 
+/* 
+   TARJETAS DE SERVICIOS
+*/
+
+/* Card principal de servicios */
 .service-card {
   border-radius: 1rem;
   transition: all 0.25s ease;
   box-shadow: 0 10px 25px rgba(25, 30, 52, 0.08);
 }
 
+/* Animación hover servicios */
 .service-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 18px 40px rgba(44, 71, 194, 0.16);
 }
 
+/*
+   AUTENTICACIÓN
+*/
+
+/* Fondo de login y registro */
 .auth-section {
   background: linear-gradient(180deg, #f3f6ff 0%, #e8edff 100%);
 }
 
+/*
+   DASHBOARD
+*/
+
+/* Sidebar del panel usuario */
 .dashboard-sidebar {
   background: #ffffff;
   box-shadow: 0 12px 28px rgba(21, 27, 49, 0.08);
 }
 
+/* Links del dashboard */
 .dashboard-link {
   color: #3b4262;
   border-radius: 0.75rem;
 }
 
+/* Estado activo y hover */
 .dashboard-link.active,
 .dashboard-link:hover {
   background: #eef1ff;
   color: #3f37c9;
 }
 
+/* Panel con gradiente principal */
 .panel-gradient {
   background: linear-gradient(120deg, #4f2ee8, #17a3ff);
   box-shadow: 0 16px 35px rgba(50, 58, 177, 0.35);
 }
 
+/* 
+   ADMINISTRACIÓN
+*/
+
+/* Fondo zona administración */
 .admin-zone {
   background: linear-gradient(180deg, #fffdf7, #fff4e6);
 }
 
+/* Banner superior administración */
 .admin-banner {
   background: #ffffff;
   border: 1px solid #ffe4b8;
 }
 
+/*
+   FOOTER
+*/
+
+/* Contenedor footer */
 .footer-shell {
   background: #fff;
   border-top: 1px solid #e7e9f5;
 }
 
+/* Padding reutilizable grande */
 .py-lg-6 {
   padding-top: 6rem;
   padding-bottom: 6rem;
 }
 
+/* 
+   HOME FEATURES
+*/
+
+/* Franja características homepage */
 .home-feature-strip {
   padding: 3.5rem 0 2rem;
   background: linear-gradient(180deg, #f5f7ff 0%, #eef4ff 100%);
 }
 
+/* Tarjeta característica */
 .home-feature-card {
   height: 100%;
   display: flex;
@@ -145,6 +216,7 @@ body {
   box-shadow: 0 14px 35px rgba(20, 24, 40, 0.07);
 }
 
+/* Iconos de características */
 .home-feature-icon {
   width: 2.75rem;
   height: 2.75rem;
@@ -157,17 +229,24 @@ body {
   font-size: 1.25rem;
 }
 
+/* Títulos características */
 .home-feature-card h6 {
   margin: 0 0 0.35rem;
   font-weight: 800;
 }
 
+/* Texto características */
 .home-feature-card p {
   margin: 0;
   color: #667085;
   font-size: 0.92rem;
 }
 
+/*
+   MARKETPLACE
+*/
+
+/* Fondo sección marketplace */
 .marketplace-section {
   padding: 4rem 0 5rem;
   background:
@@ -175,15 +254,18 @@ body {
     linear-gradient(180deg, #eef4ff 0%, #f7faff 100%);
 }
 
+/* Contenedor principal marketplace */
 .marketplace-shell {
   max-width: 1180px;
   margin: 0 auto;
 }
 
+/* Cabecera marketplace */
 .marketplace-intro {
   margin-bottom: 1.5rem;
 }
 
+/* Texto pequeño superior */
 .marketplace-kicker {
   display: inline-flex;
   align-items: center;
@@ -195,6 +277,7 @@ body {
   font-size: 0.82rem;
 }
 
+/* Título marketplace */
 .marketplace-intro h2 {
   margin: 0;
   font-size: clamp(2rem, 4vw, 3rem);
@@ -202,6 +285,7 @@ body {
   color: #111827;
 }
 
+/* Descripción marketplace */
 .marketplace-intro p {
   max-width: 650px;
   margin: 0.75rem 0 0;
@@ -209,6 +293,7 @@ body {
   font-size: 1.05rem;
 }
 
+/* Contador marketplace */
 .marketplace-counter {
   min-width: 180px;
   padding: 1rem 1.25rem;
@@ -218,6 +303,7 @@ body {
   box-shadow: 0 14px 35px rgba(20, 24, 40, 0.08);
 }
 
+/* Número destacado */
 .marketplace-counter strong {
   display: block;
   font-size: 2rem;
@@ -225,11 +311,13 @@ body {
   color: #1469d8;
 }
 
+/* Texto contador */
 .marketplace-counter span {
   color: #667085;
   font-size: 0.9rem;
 }
 
+/* Card búsqueda marketplace */
 .marketplace-search-card {
   padding: 1.35rem;
   margin-bottom: 2rem;
@@ -239,6 +327,7 @@ body {
   box-shadow: 0 20px 55px rgba(20, 24, 40, 0.1);
 }
 
+/* Barra búsqueda principal */
 .marketplace-main-search {
   display: flex;
   align-items: center;
@@ -249,12 +338,14 @@ body {
   border-radius: 1.1rem;
 }
 
+/* Icono búsqueda */
 .marketplace-main-search i {
   margin-left: 0.5rem;
   color: #1469d8;
   font-size: 1.25rem;
 }
 
+/* Input búsqueda */
 .marketplace-main-search input {
   width: 100%;
   border: 0;
@@ -263,12 +354,18 @@ body {
   font-size: 1rem;
 }
 
+/*
+   CHIPS CATEGORÍAS
+*/
+
+/* Contenedor categorías */
 .category-chip-row {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
 }
 
+/* Chip categoría */
 .category-chip {
   border: 1px solid #dfe7ff;
   background: #f8fbff;
@@ -280,6 +377,7 @@ body {
   transition: all 0.2s ease;
 }
 
+/* Hover y activo */
 .category-chip:hover,
 .category-chip.active {
   border-color: #1469d8;
@@ -288,24 +386,11 @@ body {
   transform: translateY(-1px);
 }
 
-.marketplace-results-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
+/*
+   RESPONSIVE
+*/
 
-.marketplace-results-header h4 {
-  margin: 0 0 0.25rem;
-  font-weight: 900;
-}
-
-.marketplace-results-header p {
-  margin: 0;
-  color: #667085;
-}
-
+/* Ajustes responsive móviles */
 @media (max-width: 768px) {
   .marketplace-main-search {
     flex-wrap: wrap;
@@ -321,61 +406,81 @@ body {
   }
 }
 
+/* ================================
+   FOOTER Y LINKS
+================================ */
+
+/* Bloque usuario */
 .user-link-block {
   transition: all 0.2s ease;
   border-radius: 0.75rem;
   padding: 4px;
 }
 
+/* Hover bloque usuario */
 .user-link-block:hover {
   background: rgba(79, 46, 232, 0.06);
   transform: translateX(4px);
 }
 
+/* Avatar usuario */
 .user-avatar {
   transition: transform 0.2s ease;
 }
 
+/* Animación avatar */
 .user-link-block:hover .user-avatar {
   transform: scale(1.08);
 }
 
+/* Links footer */
 .footer-link {
   color: #6c757d;
   text-decoration: none;
   transition: all 0.2s ease;
 }
 
+/* Hover links footer */
 .footer-link:hover {
   color: #3f37c9;
   transform: translateX(3px);
 }
 
+/* Redes footer */
 .footer-social {
   color: #6c757d;
   transition: all 0.2s ease;
 }
 
+/* Hover redes */
 .footer-social:hover {
   color: #3f37c9;
   transform: scale(1.2);
 }
 
+/*
+   SOPORTE Y FAQ
+*/
+
+/* Fondo página soporte */
 .support-page {
   background:
     radial-gradient(circle at top left, rgba(95, 44, 255, 0.08), transparent 35%),
     linear-gradient(180deg, #f6f8ff 0%, #eef4ff 100%);
 }
 
+/* Hero soporte */
 .support-hero {
   background: linear-gradient(145deg, #ffffff, #f8fbff);
 }
 
+/* Tarjeta contacto */
 .support-contact-card {
   background: #ffffff;
   border: 1px solid #e7eaf8;
 }
 
+/* Iconos soporte */
 .support-icon,
 .support-card-icon {
   width: 2.75rem;
@@ -388,20 +493,25 @@ body {
   font-size: 1.2rem;
 }
 
+/* Tarjeta soporte */
 .support-card {
   transition: all 0.2s ease;
 }
 
+/* Hover soporte */
 .support-card:hover {
   transform: translateY(-4px);
 }
 
+/* Accordion Bootstrap */
 .accordion-button {
   background: transparent;
   box-shadow: none !important;
 }
 
+/* Accordion activo */
 .accordion-button:not(.collapsed) {
   color: #1469d8;
   background: #f7faff;
 }
+

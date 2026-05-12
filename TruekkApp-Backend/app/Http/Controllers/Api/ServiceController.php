@@ -168,6 +168,8 @@ class ServiceController extends Controller
         return response()->json(null, 204);
     }
 
+    /* Matching de servicios: Devuelve servicios similares o complementarios al servicio dado, 
+    basándose en tipo, categoría, ubicación y palabras clave. */
     public function matches(Request $request, Service $service)
     {
         if (!$service->is_active || $service->moderation_status !== 'APPROVED') {
@@ -250,6 +252,8 @@ class ServiceController extends Controller
         ]);
     }
 
+    /* Recomendaciones personalizadas: Devuelve servicios recomendados para 
+    el usuario basándose en sus servicios activos, categorías, ubicaciones y tipos. */
     public function recommendations(Request $request)
     {
         $user = $request->user();
